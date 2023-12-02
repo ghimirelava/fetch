@@ -1,4 +1,4 @@
-module project05
+module project06
 
 go 1.19
 
