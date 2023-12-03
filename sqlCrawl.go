@@ -42,6 +42,22 @@ func (d *Datasql) sqlPopulateIndex(seedURL string, eOutCh chan ExtractResult, dI
 			}
 		}
 
+		//image tables
+		for _, word := range er.altSlice {
+			stemmed, err := snowball.Stem(word, "english", true)
+			if err == nil {
+				if _, ok := stopWordsMap[stemmed]; !ok {
+					for key, val := range er.imgInfoMap {
+						println(key)
+						println(val)
+						popImageTable(stemmed, er.url, er.title, key, val)
+					}
+				}
+			} else {
+				log.Fatalln("Does not stem properly!")
+			}
+		}
+
 		//populate the bigrams table by looping through the array of cleaned urls
 		//and getting the term id from the map created for each url
 		for i := 0; i < (len(cleanedWords) - 1); i++ {
@@ -54,7 +70,7 @@ func (d *Datasql) sqlPopulateIndex(seedURL string, eOutCh chan ExtractResult, dI
 
 func (d *Datasql) sqlCrawl(seedURL string) error {
 
-	d.crawlMap = make(map[string]bool) //initializing map that tracks urls that have been crawled
+	d.crawlMap = make(map[string]bool) //making map that tracks urls that have been crawled
 	d.crawlMap[seedURL] = true         //initialize map with seed url
 
 	var rd robotData

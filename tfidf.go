@@ -1,10 +1,12 @@
 package main
 
 type TFIDFScore struct {
-	Word  string
-	Title string
-	URL   string
-	Score float64
+	Word   string
+	Title  string
+	URL    string
+	Score  float64
+	Source string
+	ALT    string
 }
 type Hits []TFIDFScore
 

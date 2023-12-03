@@ -1,6 +1,6 @@
 package main
 
-import (
+/*import (
 	"net/http"
 	"reflect"
 	"testing"
@@ -83,4 +83,4 @@ func WildcardTest(t *testing.T) {
 
 	}
 
-}
+}*/

@@ -38,6 +38,7 @@ func sqlHandleSearch(url string) []TFIDFScore {
 		//obatin the search term and wlidcard from request
 		searchTerm := r.URL.Query().Get("term")
 		wildcard := r.URL.Query().Get("wildcard")
+		image := r.URL.Query().Get("image")
 
 		//split the search term
 		splitTerm := strings.Split(searchTerm, " ")
@@ -45,6 +46,13 @@ func sqlHandleSearch(url string) []TFIDFScore {
 		// if no search term is obtained then pront error
 		if searchTerm == "" {
 			log.Fatalln("No search term in handleSearch()")
+		} else if image != "" {
+			stemmed, err := snowball.Stem(searchTerm, "english", true)
+			if err != nil {
+				fmt.Println(err)
+				os.Exit(-1)
+			}
+			tfidfScores = sqlImageSearch(stemmed, url)
 		} else if len(splitTerm) > 1 { //if it is a bigram stem and search in bigram specfifc function
 			stemmedOne, err := snowball.Stem(splitTerm[0], "english", true)
 			if err != nil {
@@ -67,7 +75,12 @@ func sqlHandleSearch(url string) []TFIDFScore {
 		}
 
 		for _, val := range tfidfScores {
-			fmt.Fprintf(w, "%s\n %s\n %s : %v\n\n", val.Word, val.Title, val.URL, val.Score)
+			if image != "" {
+				fmt.Fprintf(w, "%s\n %s\n %s : %v\n\n", val.Word, val.Title, val.URL, val.Score)
+				fmt.Fprintf(w, "%v\n %v\n\n", val.Source, val.ALT)
+			} else {
+				fmt.Fprintf(w, "%s\n %s\n %s : %v\n\n", val.Word, val.Title, val.URL, val.Score)
+			}
 		}
 	})
 

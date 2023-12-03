@@ -20,7 +20,10 @@ func dropTables() {
 	_, err = db.Exec(` DROP TABLE IF EXISTS terms;
 	DROP TABLE IF EXISTS urls;
 	DROP TABLE IF EXISTS hits;
-	DROP TABLE IF EXISTS bigram_hits;`)
+	DROP TABLE IF EXISTS bigram_hits;
+	DROP TABLE IF EXISTS image_terms;
+	DROP TABLE IF EXISTS image_urls;
+	DROP TABLE IF EXISTS image_hits;`)
 	if err != nil {
 		fmt.Println("Err dropping table: ", err)
 		os.Exit(-1)
@@ -176,6 +179,7 @@ func popTables(wordString, link, linkTitle string) (int, int) {
 		os.Exit(-1)
 	}
 
+	//hits table
 	var temp_term_id int
 	err = tx.QueryRow("SELECT term_id FROM terms WHERE word = ?;", wordString).Scan(&temp_term_id)
 
