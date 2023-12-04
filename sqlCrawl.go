@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/kljensen/snowball"
+	//"gopkg.in/neurosnap/sentences.v1/english"
 )
 
 type Datasql struct {
@@ -48,8 +49,8 @@ func (d *Datasql) sqlPopulateIndex(seedURL string, eOutCh chan ExtractResult, dI
 			if err == nil {
 				if _, ok := stopWordsMap[stemmed]; !ok {
 					for key, val := range er.imgInfoMap {
-						println(key)
-						println(val)
+						//println(key)
+						//println(val)
 						popImageTable(stemmed, er.url, er.title, key, val)
 					}
 				}
