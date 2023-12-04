@@ -74,18 +74,6 @@ func extract(dOutCh chan DownloadResult, exoutC chan ExtractResult) {
 					}
 				}
 
-			} else if n.Type == html.TextNode { //if the current node is a text node, append to words slice
-				if n.Data != "" {
-					ex.textSlice = append(ex.wordSlice, strings.TrimSpace(n.Data))
-					nb := strings.TrimSpace(n.Data)
-					println(nb)
-				}
-				sliceWords := strings.Fields(n.Data)
-				for _, everyWord := range sliceWords {
-					// fields gets rid of random spacing
-					word := strings.FieldsFunc(everyWord, f)
-					ex.wordSlice = append(ex.wordSlice, word...)
-				}
 			} else if n.Type == html.ElementNode && (n.Data == "style" || n.Data == "script") {
 				return
 			}
@@ -95,6 +83,20 @@ func extract(dOutCh chan DownloadResult, exoutC chan ExtractResult) {
 			}
 		}
 		extractTree(tree)
-		exoutC <- ExtractResult{ex.wordSlice, ex.hrefSlice, ex.altSlice, ex.textSlice, ex.imgInfoMap, dlStruct.url, ex.title}
+		exoutC <- ExtractResult{ex.wordSlice, ex.hrefSlice, ex.altSlice, ex.imgInfoMap, dlStruct.url, ex.title}
 	}
 }
+
+/*else if n.Type == html.TextNode { //if the current node is a text node, append to words slice
+	if n.Data != "" {
+		ex.textSlice = append(ex.wordSlice, strings.TrimSpace(n.Data))
+		nb := strings.TrimSpace(n.Data)
+		println(nb)
+	}
+	sliceWords := strings.Fields(n.Data)
+	for _, everyWord := range sliceWords {
+		// fields gets rid of random spacing
+		word := strings.FieldsFunc(everyWord, f)
+		ex.wordSlice = append(ex.wordSlice, word...)
+	}
+}*/
