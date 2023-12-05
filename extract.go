@@ -74,6 +74,13 @@ func extract(dOutCh chan DownloadResult, exoutC chan ExtractResult) {
 					}
 				}
 
+			} else if n.Type == html.TextNode { //if the current node is a text node, append to words slice
+				sliceWords := strings.Fields(n.Data)
+				for _, everyWord := range sliceWords {
+					// fields gets rid of random spacing
+					word := strings.FieldsFunc(everyWord, f)
+					ex.wordSlice = append(ex.wordSlice, word...)
+				}
 			} else if n.Type == html.ElementNode && (n.Data == "style" || n.Data == "script") {
 				return
 			}

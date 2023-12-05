@@ -1,0 +1,31 @@
+.demo {
+    font-style:italic;
+}
+
+.center {
+    text-align: center;
+    width: 500px;
+    border: 3px solid green;
+    border-radius: 8px;
+    padding: 5px;
+}
+  
+/* unvisited link */
+a:link {
+    color: green;
+  }
+  
+  /* visited link */
+  a:visited {
+    color: green;
+  }
+  
+  /* mouse over link */
+  a:hover {
+    color: hotpink;
+  }
+  
+  /* selected link */
+  a:active {
+    color: blue;
+  }

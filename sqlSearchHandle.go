@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 	"os"
@@ -12,7 +13,7 @@ import (
 )
 
 func sqlHandleSearch(url string) []TFIDFScore {
-	var d Datasql
+	//var d Datasql
 	var tfidfScores []TFIDFScore
 
 	db, err := sql.Open("sqlite3", "project04.db")
@@ -29,9 +30,10 @@ func sqlHandleSearch(url string) []TFIDFScore {
 		log.Fatal(err)
 	}
 	//calling crawl with url to init the inverted index
-	d.sqlCrawl(url)
+	//d.sqlCrawl(url)
 
 	http.Handle("/", http.FileServer(http.Dir("./static")))
+	http.Handle("/project06.css", http.FileServer(http.Dir("./static")))
 
 	http.HandleFunc("/search", func(w http.ResponseWriter, r *http.Request) {
 
@@ -73,15 +75,22 @@ func sqlHandleSearch(url string) []TFIDFScore {
 			}
 			tfidfScores = sqlSearch(stemmed, url, wildcard)
 		}
+		t, err := template.ParseFiles("./static/result.html")
+		if err != nil {
+			log.Fatalln("ParseFiles: ", err)
+		}
 
-		for _, val := range tfidfScores {
+		w.Header().Set("Content-Type", "text/html")
+		err = t.Execute(w, tfidfScores)
+
+		/*for _, val := range tfidfScores {
 			if image != "" {
 				fmt.Fprintf(w, "%s\n %s\n %s : %v\n\n", val.Word, val.Title, val.URL, val.Score)
 				fmt.Fprintf(w, "%v\n %v\n\n", val.Source, val.ALT)
 			} else {
 				fmt.Fprintf(w, "%s\n %s\n %s : %v\n\n", val.Word, val.Title, val.URL, val.Score)
 			}
-		}
+		}*/
 	})
 
 	return tfidfScores
