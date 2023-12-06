@@ -92,9 +92,9 @@ func ImageTest(t *testing.T) {
 	}{
 		{"slug",
 			Hits{
-				{"slug", "Our Mascot: Sammy the Banana Slug - UC Santa Cruz", "https://www.ucsc.edu/campus/mascot/", 0.11333333333333333, "https://www.ucsc.edu/wp-content/uploads/2023/08/fiat-slug.png", "Original Fiat Slug logo illustration."},
-				{"slug", "Overview - UC Santa Cruz", "https://www.ucsc.edu/about/overview/", 0.015398550724637678, "https://www.ucsc.edu/wp-content/uploads/2023/08/IMG_3723.jpg", "Mens soccer team playing game."},
-				{"slug", "About UC Santa Cruz - UC Santa Cruz", "https://www.ucsc.edu/about/", 0.009037745879851141, "https://www.ucsc.edu/wp-content/uploads/2023/07/chancellor-edited-1024x577.jpg", "Portrait of Chancellor Cynthia Larive."},
+				{"slug", "Our Mascot: Sammy the Banana Slug - UC Santa Cruz", "https://www.ucsc.edu/campus/mascot/", 0.29824561403508765, "https://www.ucsc.edu/wp-content/uploads/2022/11/2022_09_17_UCSC-341.jpg", "Banana Slug Mascot strikes a pose a different pose."},
+				{"slug", "Overview - UC Santa Cruz", "https://www.ucsc.edu/about/overview/", 0.10493827160493825, "https://www.ucsc.edu/wp-content/uploads/2023/06/SAMMY-SILICON-VALLEY_RGB_300dpi-1024x1024.png", "Cartoon illustration of Sammy on a scooter in front of a words that say Slugs in Silicon Valley"},
+				{"slug", "About UC Santa Cruz - UC Santa Cruz", "https://www.ucsc.edu/about/", 0.07762557077625569, "https://www.ucsc.edu/wp-content/uploads/2023/07/11182020-Banana-Slug-CL-0011.jpg", "real banana slug slithering along the forest floor."},
 			},
 		},
 	}
