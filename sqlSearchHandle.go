@@ -80,7 +80,7 @@ func sqlHandleSearch(url string) []TFIDFScore {
 			}
 			tfidfScores = sqlSearchBiGram(stemmedOne, stemmedTwo, url)
 
-			t, err := template.ParseFiles("./static/biResult.html")
+			t, err := template.ParseFiles("./static/uniResult.html")
 			if err != nil {
 				log.Fatalln("ParseFiles: ", err)
 			}
@@ -102,26 +102,8 @@ func sqlHandleSearch(url string) []TFIDFScore {
 			}
 
 			w.Header().Set("Content-Type", "text/html")
-
-			for _, val := range tfidfScores {
-				err = t.Execute(w, val.Word)
-				break
-			}
-
-			w.Header().Set("Content-Type", "text/html")
 			err = t.Execute(w, tfidfScores)
 		}
-
-		/*
-			        <h2>Search Results For: {{.Word}}</h2>
-			for _, val := range tfidfScores {
-				if image != "" {
-					fmt.Fprintf(w, "%s\n %s\n %s : %v\n\n", val.Word, val.Title, val.URL, val.Score)
-					fmt.Fprintf(w, "%v\n %v\n\n", val.Source, val.ALT)
-				} else {
-					fmt.Fprintf(w, "%s\n %s\n %s : %v\n\n", val.Word, val.Title, val.URL, val.Score)
-				}
-			}*/
 	})
 
 	return tfidfScores

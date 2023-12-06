@@ -1,25 +1,27 @@
 <html>
+
 <head>
     <link rel="stylesheet" href="/project06.css">
 </head>
 
 <body>
-
-    <h2>Search Results For: <b>{{.Word}}</b></h2>
-
+    <h2 class="header">Search Results</h2>
     {{range .}}
-    <span class="demo">
-        <a href="{{.URL}}">{{.Title}}</a>
-    </span>
-    <p>Score: <b>{{.Score}}</b></p>
-    <div class="dropdown">
-        <img src="{{.Source}}" alt="{{.ALT}}" width="100" height="50">
-        <div class="dropdown-content">
-            <img src="{{.Source}}" alt="{{.ALT}}" width="300" height="200">
-            <div class="desc">{{.ALT}}</div>
+    <div class="outset">
+        <span class="demo">
+            <a href="{{.URL}}">{{.Title}}</a>
+        </span>
+        <p>Score: <b>{{.Score}}</b></p>
+        <div class="dropdown">
+            <img src="{{.Source}}" alt="{{.ALT}}" width="100" height="50">
+            <div class="dropdown-content">
+                <img src="{{.Source}}" alt="{{.ALT}}" width="300" height="200">
+                <div class="desc">{{.ALT}}</div>
+            </div>
         </div>
     </div>
     {{end}}
 
 </body>
+
 </html>
