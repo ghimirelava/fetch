@@ -13,7 +13,7 @@ import (
 )
 
 func sqlHandleSearch(url string) []TFIDFScore {
-	//var d Datasql
+	var d Datasql
 	var tfidfScores []TFIDFScore
 
 	db, err := sql.Open("sqlite3", "project04.db")
@@ -30,7 +30,7 @@ func sqlHandleSearch(url string) []TFIDFScore {
 		log.Fatal(err)
 	}
 	//calling crawl with url to init the inverted index
-	//d.sqlCrawl(url)
+	d.sqlCrawl(url)
 
 	http.Handle("/", http.FileServer(http.Dir("./static")))
 	http.Handle("/project06.css", http.FileServer(http.Dir("./static")))

@@ -151,7 +151,7 @@ func popBiGram(term_id_one, term_id_two, url_id int) {
 	}
 }
 
-func popTables(wordString, link, linkTitle, sentence string) (int, int) {
+func popTables(wordString, link, linkTitle string) (int, int) {
 	db, err := sql.Open("sqlite3", "project04.db")
 	if err != nil {
 		fmt.Println("Err in popTermsTable() open: ", err)
@@ -198,9 +198,6 @@ func popTables(wordString, link, linkTitle, sentence string) (int, int) {
 	//hits table
 	var temp_term_id int
 	err = tx.QueryRow("SELECT term_id FROM terms WHERE word = ?;", wordString).Scan(&temp_term_id)
-
-	var temp_snip_id int
-	err = tx.QueryRow("SELECT snip_id FROM snips WHERE sentence = ?;", sentence).Scan(&temp_snip_id)
 
 	var temp_url_id int
 	err = tx.QueryRow("SELECT url_id FROM urls WHERE url = ?;", link).Scan(&temp_url_id)

@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"strings"
 	"time"
 
 	"github.com/kljensen/snowball"
@@ -27,13 +28,11 @@ func (d *Datasql) sqlPopulateIndex(seedURL string, eOutCh chan ExtractResult, dI
 		cleanedWords := []string{}
 
 		stopWordsMap := stopWords() //get the map of stop words
-		d.popSnippet(er.sentences)
 		for _, word := range er.wordSlice {
-			sentence := d.getSnippet(word)
 			stemmed, err := snowball.Stem(word, "english", true)
 			if err == nil {
 				if _, ok := stopWordsMap[stemmed]; !ok {
-					termID, url_id := popTables(stemmed, er.url, er.title, sentence) //return term_id to put into map
+					termID, url_id := popTables(stemmed, er.url, er.title) //return term_id to put into map
 
 					urlID = url_id
 					d.biGramMap[stemmed] = termID
@@ -49,9 +48,9 @@ func (d *Datasql) sqlPopulateIndex(seedURL string, eOutCh chan ExtractResult, dI
 			if err == nil {
 				if _, ok := stopWordsMap[stemmed]; !ok {
 					for key, val := range er.imgInfoMap {
-						//println(key)
-						//println(val)
-						popImageTable(stemmed, er.url, er.title, key, val)
+						if strings.Contains(val, word) {
+							popImageTable(stemmed, er.url, er.title, key, val)
+						}
 					}
 				}
 			} else {

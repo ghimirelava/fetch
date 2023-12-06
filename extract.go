@@ -7,7 +7,6 @@ import (
 	"unicode"
 
 	"golang.org/x/net/html"
-	"gopkg.in/neurosnap/sentences.v1/english"
 )
 
 type ExtractResult struct {
@@ -92,34 +91,3 @@ func extract(dOutCh chan DownloadResult, exoutC chan ExtractResult) {
 		exoutC <- ExtractResult{ex.wordSlice, ex.hrefSlice, ex.altSlice, ex.sentences, ex.imgInfoMap, dlStruct.url, ex.title}
 	}
 }
-
-func getSnippts(text string) {
-	var ex ExtractResult
-
-	tokenizer, err := english.NewSentenceTokenizer(nil)
-	if err != nil {
-		panic(err)
-	}
-	sentences := tokenizer.Tokenize(text)
-	for _, s := range sentences {
-		if tokenizer.HasSentencePunct(s.Text) == true && strings.Contains(s.Text, "<iframe") == false { //tokenizer.IsNonPunct(s.Token) == true { s.Text != "" && s.Text != "\n" &&
-			ex.sentences = append(ex.sentences, s.Text)
-			//fmt.Println(s.Text)
-		}
-		//break
-	}
-}
-
-/*else if n.Type == html.TextNode { //if the current node is a text node, append to words slice
-	if n.Data != "" {
-		ex.textSlice = append(ex.wordSlice, strings.TrimSpace(n.Data))
-		nb := strings.TrimSpace(n.Data)
-		println(nb)
-	}
-	sliceWords := strings.Fields(n.Data)
-	for _, everyWord := range sliceWords {
-		// fields gets rid of random spacing
-		word := strings.FieldsFunc(everyWord, f)
-		ex.wordSlice = append(ex.wordSlice, word...)
-	}
-}*/
