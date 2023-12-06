@@ -23,7 +23,8 @@ func dropTables() {
 	DROP TABLE IF EXISTS bigram_hits;
 	DROP TABLE IF EXISTS image_terms;
 	DROP TABLE IF EXISTS image_urls;
-	DROP TABLE IF EXISTS image_hits;`)
+	DROP TABLE IF EXISTS image_hits;
+	DROP TABLE IF EXISTS snips;`)
 	if err != nil {
 		fmt.Println("Err dropping table: ", err)
 		os.Exit(-1)
@@ -52,6 +53,17 @@ func makeQueries() {
 		os.Exit(-1)
 	}
 
+	//snips table
+	_, err = db.Exec(`CREATE TABLE snips(
+			snip_id integer PRIMARY KEY,
+			sentence text UNIQUE
+		);
+	`)
+	if err != nil {
+		fmt.Println("Err creating snips table: ", err)
+		os.Exit(-1)
+	}
+
 	//url table
 	_, err = db.Exec(`CREATE TABLE urls( 
 			url_id integer PRIMARY KEY,
@@ -71,8 +83,10 @@ func makeQueries() {
 			term_id integer,
 			url_id integer,
 			term_count integer NOT NULL,
+			snippet_id text,
 			FOREIGN KEY(term_id) references terms(term_id),
-			FOREIGN KEY(url_id) references urls(url_id)
+			FOREIGN KEY(url_id) references urls(url_id),
+			FOREIGN KEY(snippet_id) references snips(snippet_id)
 		);
 	`)
 	if err != nil {
@@ -87,10 +101,12 @@ func makeQueries() {
 			term_id_two integer,
 			url_id integer,
 			term_count integer NOT NULL,
+			snippet_id text,
 			UNIQUE (term_id_one, term_id_two, url_id),
 			FOREIGN KEY(term_id_one) references terms(term_id),
 			FOREIGN KEY(term_id_two) references terms(term_id),
-			FOREIGN KEY(url_id) references urls(url_id)
+			FOREIGN KEY(url_id) references urls(url_id),
+			FOREIGN KEY(snippet_id) references snips(snippet_id)
 		);
 	`)
 	if err != nil {
@@ -135,7 +151,7 @@ func popBiGram(term_id_one, term_id_two, url_id int) {
 	}
 }
 
-func popTables(wordString, link, linkTitle string) (int, int) {
+func popTables(wordString, link, linkTitle, sentence string) (int, int) {
 	db, err := sql.Open("sqlite3", "project04.db")
 	if err != nil {
 		fmt.Println("Err in popTermsTable() open: ", err)
@@ -182,6 +198,9 @@ func popTables(wordString, link, linkTitle string) (int, int) {
 	//hits table
 	var temp_term_id int
 	err = tx.QueryRow("SELECT term_id FROM terms WHERE word = ?;", wordString).Scan(&temp_term_id)
+
+	var temp_snip_id int
+	err = tx.QueryRow("SELECT snip_id FROM snips WHERE sentence = ?;", sentence).Scan(&temp_snip_id)
 
 	var temp_url_id int
 	err = tx.QueryRow("SELECT url_id FROM urls WHERE url = ?;", link).Scan(&temp_url_id)

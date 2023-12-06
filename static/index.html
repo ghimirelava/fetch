@@ -1,15 +1,22 @@
 <html>
+    <head>
+        <link rel="stylesheet" href="form.css">
+    </head>
      <body>
+        <div class="header">
+            <h1>My Website</h1>
+            <p>Resize the browser window to see the effect.</p>
+        </div>
         <form method="get" action="/search">
-            <label for="inputBox">Search</label>
-            <input type="text" name="term" id="inputBox">
+            <!-- <label for="inputBox">Search</label> -->
+            <input type="text" name="term" id="inputBox" class="searchTerm">
             <button type="submit">Go</button>
             <br>
             <input type="checkbox" id="wildcard" name="wildcard" value="wildcard">
             <label for="wildcard">Wildcard Search</label>
-            <br>
             <input type="checkbox" id="image" name="image" value="image">
             <label for="image">Image Search</label>
+            <br>
          </form>
      </body>
  </html>

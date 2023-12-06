@@ -1,0 +1,29 @@
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+
+.search {
+    width: 300%;
+    position: relative;
+    display: flex;
+}
+
+.searchTerm {
+    width: 85%;
+}
+
+/* Header/Blog Title */
+.header {
+    padding: 30px;
+    text-align: center;
+    background: grey;
+  }
+  
+.header h1 {
+    font-size: 50px;
+}

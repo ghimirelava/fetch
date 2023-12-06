@@ -9,10 +9,10 @@ import (
 func main() {
 	fmt.Println("project06")
 
-	dropTables()
-	makeQueries()
-	makeImageQueries()
-	go http.ListenAndServe("localhost:8080", nil)
+	//dropTables()
+	//makeQueries()
+	//makeImageQueries()
+	go http.ListenAndServe("localhost:8081", nil)
 	url := "https://www.ucsc.edu/robots.txt"
 	//d.sqlCrawl(url)
 	sqlHandleSearch(url)

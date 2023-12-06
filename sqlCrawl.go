@@ -6,14 +6,13 @@ import (
 	"time"
 
 	"github.com/kljensen/snowball"
-	//"gopkg.in/neurosnap/sentences.v1/english"
 )
 
 type Datasql struct {
 	prevDocsInCropus float64
 	crawlMap         map[string]bool
 	biGramMap        map[string]int //term and term_id
-
+	snippetMap       map[string]int
 }
 
 func (d *Datasql) sqlPopulateIndex(seedURL string, eOutCh chan ExtractResult, dInCh chan string) {
@@ -24,15 +23,17 @@ func (d *Datasql) sqlPopulateIndex(seedURL string, eOutCh chan ExtractResult, dI
 		d.prevDocsInCropus++
 
 		d.biGramMap = make(map[string]int)
+		d.snippetMap = make(map[string]int)
 		cleanedWords := []string{}
 
 		stopWordsMap := stopWords() //get the map of stop words
-
+		d.popSnippet(er.sentences)
 		for _, word := range er.wordSlice {
+			sentence := d.getSnippet(word)
 			stemmed, err := snowball.Stem(word, "english", true)
 			if err == nil {
 				if _, ok := stopWordsMap[stemmed]; !ok {
-					termID, url_id := popTables(stemmed, er.url, er.title) //return term_id to put into map
+					termID, url_id := popTables(stemmed, er.url, er.title, sentence) //return term_id to put into map
 
 					urlID = url_id
 					d.biGramMap[stemmed] = termID
@@ -42,7 +43,6 @@ func (d *Datasql) sqlPopulateIndex(seedURL string, eOutCh chan ExtractResult, dI
 				log.Fatalln("Does not stem properly!")
 			}
 		}
-
 		//image tables
 		for _, word := range er.altSlice {
 			stemmed, err := snowball.Stem(word, "english", true)
@@ -58,7 +58,6 @@ func (d *Datasql) sqlPopulateIndex(seedURL string, eOutCh chan ExtractResult, dI
 				log.Fatalln("Does not stem properly!")
 			}
 		}
-
 		//populate the bigrams table by looping through the array of cleaned urls
 		//and getting the term id from the map created for each url
 		for i := 0; i < (len(cleanedWords) - 1); i++ {

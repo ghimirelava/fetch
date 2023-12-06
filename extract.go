@@ -7,17 +7,16 @@ import (
 	"unicode"
 
 	"golang.org/x/net/html"
+	"gopkg.in/neurosnap/sentences.v1/english"
 )
 
 type ExtractResult struct {
-	wordSlice, hrefSlice, altSlice []string
-	imgInfoMap                     map[string]string
-	url, title                     string
+	wordSlice, hrefSlice, altSlice, sentences []string
+	imgInfoMap                                map[string]string
+	url, title                                string
 }
 
 func extract(dOutCh chan DownloadResult, exoutC chan ExtractResult) {
-	//var ex ExtractResult
-	//ex.imgInfoMap = make(map[string]string)
 	for dlStruct := range dOutCh {
 		var ex ExtractResult
 		ex.imgInfoMap = make(map[string]string)
@@ -90,7 +89,24 @@ func extract(dOutCh chan DownloadResult, exoutC chan ExtractResult) {
 			}
 		}
 		extractTree(tree)
-		exoutC <- ExtractResult{ex.wordSlice, ex.hrefSlice, ex.altSlice, ex.imgInfoMap, dlStruct.url, ex.title}
+		exoutC <- ExtractResult{ex.wordSlice, ex.hrefSlice, ex.altSlice, ex.sentences, ex.imgInfoMap, dlStruct.url, ex.title}
+	}
+}
+
+func getSnippts(text string) {
+	var ex ExtractResult
+
+	tokenizer, err := english.NewSentenceTokenizer(nil)
+	if err != nil {
+		panic(err)
+	}
+	sentences := tokenizer.Tokenize(text)
+	for _, s := range sentences {
+		if tokenizer.HasSentencePunct(s.Text) == true && strings.Contains(s.Text, "<iframe") == false { //tokenizer.IsNonPunct(s.Token) == true { s.Text != "" && s.Text != "\n" &&
+			ex.sentences = append(ex.sentences, s.Text)
+			//fmt.Println(s.Text)
+		}
+		//break
 	}
 }
 
