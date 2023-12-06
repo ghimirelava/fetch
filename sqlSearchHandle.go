@@ -80,7 +80,7 @@ func sqlHandleSearch(url string) []TFIDFScore {
 			}
 			tfidfScores = sqlSearchBiGram(stemmedOne, stemmedTwo, url)
 
-			t, err := template.ParseFiles("./static/uniResult.html")
+			t, err := template.ParseFiles("./static/result.html")
 			if err != nil {
 				log.Fatalln("ParseFiles: ", err)
 			}
@@ -96,7 +96,7 @@ func sqlHandleSearch(url string) []TFIDFScore {
 			}
 			tfidfScores = sqlSearch(stemmed, url, wildcard)
 
-			t, err := template.ParseFiles("./static/uniResult.html")
+			t, err := template.ParseFiles("./static/result.html")
 			if err != nil {
 				log.Fatalln("ParseFiles: ", err)
 			}
