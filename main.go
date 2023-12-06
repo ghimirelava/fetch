@@ -12,7 +12,7 @@ func main() {
 	//dropTables()
 	//makeQueries()
 	//makeImageQueries()
-	go http.ListenAndServe("localhost:8081", nil)
+	go http.ListenAndServe("localhost:8080", nil)
 	url := "https://www.ucsc.edu/robots.txt"
 	//d.sqlCrawl(url)
 	sqlHandleSearch(url)

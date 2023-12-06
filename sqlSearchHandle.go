@@ -34,6 +34,7 @@ func sqlHandleSearch(url string) []TFIDFScore {
 
 	http.Handle("/", http.FileServer(http.Dir("./static")))
 	http.Handle("/project06.css", http.FileServer(http.Dir("./static")))
+	http.Handle("/form.css", http.FileServer(http.Dir("./static")))
 
 	http.HandleFunc("/search", func(w http.ResponseWriter, r *http.Request) {
 
@@ -48,14 +49,25 @@ func sqlHandleSearch(url string) []TFIDFScore {
 		// if no search term is obtained then pront error
 		if searchTerm == "" {
 			log.Fatalln("No search term in handleSearch()")
-		} else if image != "" {
+
+		} else if image != "" { //image search
 			stemmed, err := snowball.Stem(searchTerm, "english", true)
 			if err != nil {
 				fmt.Println(err)
 				os.Exit(-1)
 			}
+
 			tfidfScores = sqlImageSearch(stemmed, url)
-		} else if len(splitTerm) > 1 { //if it is a bigram stem and search in bigram specfifc function
+
+			t, err := template.ParseFiles("./static/imageResult.html")
+			if err != nil {
+				log.Fatalln("ParseFiles: ", err)
+			}
+
+			w.Header().Set("Content-Type", "text/html")
+			err = t.Execute(w, tfidfScores)
+
+		} else if len(splitTerm) > 1 { //bigram search
 			stemmedOne, err := snowball.Stem(splitTerm[0], "english", true)
 			if err != nil {
 				fmt.Println(err)
@@ -67,30 +79,49 @@ func sqlHandleSearch(url string) []TFIDFScore {
 				os.Exit(-1)
 			}
 			tfidfScores = sqlSearchBiGram(stemmedOne, stemmedTwo, url)
-		} else {
+
+			t, err := template.ParseFiles("./static/biResult.html")
+			if err != nil {
+				log.Fatalln("ParseFiles: ", err)
+			}
+
+			w.Header().Set("Content-Type", "text/html")
+			err = t.Execute(w, tfidfScores)
+
+		} else { //uni search
 			stemmed, err := snowball.Stem(searchTerm, "english", true)
 			if err != nil {
 				fmt.Println(err)
 				os.Exit(-1)
 			}
 			tfidfScores = sqlSearch(stemmed, url, wildcard)
-		}
-		t, err := template.ParseFiles("./static/result.html")
-		if err != nil {
-			log.Fatalln("ParseFiles: ", err)
-		}
 
-		w.Header().Set("Content-Type", "text/html")
-		err = t.Execute(w, tfidfScores)
-
-		/*for _, val := range tfidfScores {
-			if image != "" {
-				fmt.Fprintf(w, "%s\n %s\n %s : %v\n\n", val.Word, val.Title, val.URL, val.Score)
-				fmt.Fprintf(w, "%v\n %v\n\n", val.Source, val.ALT)
-			} else {
-				fmt.Fprintf(w, "%s\n %s\n %s : %v\n\n", val.Word, val.Title, val.URL, val.Score)
+			t, err := template.ParseFiles("./static/uniResult.html")
+			if err != nil {
+				log.Fatalln("ParseFiles: ", err)
 			}
-		}*/
+
+			w.Header().Set("Content-Type", "text/html")
+
+			for _, val := range tfidfScores {
+				err = t.Execute(w, val.Word)
+				break
+			}
+
+			w.Header().Set("Content-Type", "text/html")
+			err = t.Execute(w, tfidfScores)
+		}
+
+		/*
+			        <h2>Search Results For: {{.Word}}</h2>
+			for _, val := range tfidfScores {
+				if image != "" {
+					fmt.Fprintf(w, "%s\n %s\n %s : %v\n\n", val.Word, val.Title, val.URL, val.Score)
+					fmt.Fprintf(w, "%v\n %v\n\n", val.Source, val.ALT)
+				} else {
+					fmt.Fprintf(w, "%s\n %s\n %s : %v\n\n", val.Word, val.Title, val.URL, val.Score)
+				}
+			}*/
 	})
 
 	return tfidfScores

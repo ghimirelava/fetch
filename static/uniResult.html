@@ -1,27 +1,21 @@
-
-/*type TFIDFScore struct {
-	Word   string
-	Title  string
-	URL    string
-	Score  float64
-	Source string
-	ALT    string
-}*/
 <html>
     <head>
         <link rel="stylesheet" href="/project06.css">
     </head>
     <body>
+        <header class="header">
+            <h1>Search Results</h1>
+        </header>
         {{range .}}
-        <div class="center">
+        <div class="outset">
             <p>
-                <p>{{.Word}}</p>
                 <span class="demo">
-                    <a href={{.URL}}>{{.Title}}</a>
+                    <a href={{.URL}}> <b>{{.Title}}</b></a>
                 </span>
                 <p>Score: <b>{{.Score}}</b></p>
             </p>
         </div>
+        <p></p>
         {{end}}
     </body>
 </html>
