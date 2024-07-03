@@ -4,27 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="form.css">
-    <title>Fetch</title> 
+    <title>Fetch</title>
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <header class="header">
-        <div class="logo-placeholder"></div> <!-- find logo canva -->
-        <h1>✩°｡⋆ Fetch ⋆｡°✩</h1> 
+        <div class="logo-container">
+            <img src="fetch-logo.png" alt="Fetch Logo" class="logo">
+            <h1>Fetch</h1>
+        </div>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+        </nav>
     </header>
-    <div class="search-container">
-        <img src="dog-placeholder.png" alt="Dog Placeholder" class="dog-placeholder"> <!-- find logo canva-->
-        <form method="get" action="/search">
-            <div class="search">
-                <input type="text" name="term" id="inputBox" class="searchTerm" placeholder="Search">
-                <button type="submit">Go</button>
-            </div>
-            <div class="checkbox-container">
-                <input type="checkbox" id="wildcard" name="wildcard" value="wildcard">
-                <label for="wildcard">Wildcard Search</label>
-                <input type="checkbox" id="image" name="image" value="image">
-                <label for="image">Image Search</label>
-            </div>
-        </form>
-    </div>
+    <main class="main-content">
+        <div class="search-container">
+            <img src="dog.jpg" alt="Dog" class="dog-image">
+            <form method="get" action="/search">
+                <div class="search">
+                    <input type="text" name="term" id="inputBox" class="searchTerm" placeholder="Search">
+                    <button type="submit"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="checkbox-container">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="wildcard" name="wildcard" value="wildcard">
+                        <label for="wildcard">Wildcard Search</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="image" name="image" value="image">
+                        <label for="image">Image Search</label>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
 </body>
 </html>
