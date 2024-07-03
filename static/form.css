@@ -1,7 +1,7 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0; /* Light gray background */
+    background-color: #d1c3ea;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -9,8 +9,8 @@ body {
 }
 
 .header {
-    background-color: #4CAF50; /* Green background for header */
-    color: #ffffff; /* White text color */
+    background-color: #b18def;
+    color: #1d0028;
     padding: 20px;
     text-align: center;
     display: flex;
@@ -18,15 +18,10 @@ body {
 }
 
 .header .logo-placeholder {
-    width: 50px; /* Adjust size as needed */
-    height: 50px; /* Adjust size as needed */
-    background-color: #ffe066; /* Butter yellow background for logo placeholder */
+    width: 50px;
+    height: 50px;
+    background-color: #ccc; 
     margin-right: 10px;
-}
-
-.header h1 {
-    font-size: 24px;
-    margin: 0;
 }
 
 .search-container {
@@ -34,51 +29,31 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: #1d0028; /* Dark text color */
-    margin-top: 20px; /* Space between header and search container */
+    color: #1d0028;
 }
 
 .dog-placeholder {
-    width: 100px; /* Adjust size as needed */
-    height: 100px; /* Adjust size as needed */
-    margin-bottom: 20px; /* Space between dog image and search box */
+    width: 100px; 
+    height: 100px; 
+    margin-bottom: 20px; 
 }
 
 .search {
     width: 300px;
     position: relative;
     display: flex;
-    color: #1d0028; /* Dark text color */
+    color: #1d0028;
 }
 
 .searchTerm {
     width: 100%;
     padding: 10px;
-    border: 1px solid #4CAF50; /* Green border for input */
-    border-radius: 3px;
-    margin-right: 5px;
-}
-
-button {
-    padding: 10px 20px;
-    background-color: #4CAF50; /* Green background for button */
-    color: #ffffff; /* White text color */
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    font-size: 16px;
-    outline: none;
-}
-
-button:hover {
-    background-color: #45a049; /* Darker green on hover */
 }
 
 .checkbox-container {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    margin-top: 10px; /* Space above checkboxes */
 }
 
 .checkbox-container input,
