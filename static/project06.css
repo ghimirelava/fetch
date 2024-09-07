@@ -1,18 +1,107 @@
+:root {
+  --butter-yellow: #F3E5AB;
+  --dark-green: #006400;
+  --light-grey: #F0F0F0;
+  --dark-grey: #333333;
+}
+
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #d1c3ea;
+  font-family: 'Arial', sans-serif;
+  background-color: var(--light-grey);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  color: var(--dark-grey);
 }
 
 .header {
-  background-color: #b18def;
-  color: #1d0028;
+  background-color: white;
   padding: 20px;
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+h1 {
+  font-size: 2.5rem;
+  color: var(--butter-yellow);
+  text-shadow: 1px 1px 2px var(--dark-grey);
+  margin: 0;
+}
+
+nav {
+  display: flex;
+  gap: 20px;
+}
+
+nav a {
+  color: var(--dark-grey);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+nav a:hover {
+  color: var(--dark-green);
+}
+
+main {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.result-item {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--light-grey);
+}
+
+.result-item:last-child {
+  border-bottom: none;
+}
+
+.result-title {
+  font-size: 1.2rem;
+  color: var(--dark-green);
+  margin-bottom: 5px;
+}
+
+.result-score {
+  font-weight: bold;
+  color: var(--dark-grey);
+}
+
+.result-word, .result-alt {
+  margin-top: 5px;
+  color: var(--dark-grey);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  margin-top: 10px;
+  border-radius: 5px;
 }
 
 .demo {
   font-style: italic;
+  color: var(--dark-grey);
 }
 
 .dropdown {
@@ -23,10 +112,11 @@ body {
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: #f9f9f9;
+  background-color: white;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
+  border-radius: 5px;
 }
 
 .dropdown:hover .dropdown-content {
@@ -38,29 +128,11 @@ body {
   text-align: center;
 }
 
-div.outset {
-  text-align: center;
-  width: 50%;
-  border-style: outset;
-  padding: 5px;
+a {
+  color: var(--dark-green);
+  text-decoration: none;
 }
 
-/* unvisited link */
-a:link {
-  color: #1d0028;
-}
-
-/* visited link */
-a:visited {
-  color: #1d0028;
-}
-
-/* mouse over link */
 a:hover {
-  color: hotpink;
-}
-
-/* selected link */
-a:active {
-  color: blue;
+  text-decoration: underline;
 }

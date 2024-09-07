@@ -1,27 +1,28 @@
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <link rel="stylesheet" href="/project06.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="results.css">
+    <title>Image Search Results - Fetch</title>
 </head>
-
 <body>
-    <h2 class="header">Search Results</h2>
-    {{range .}}
-    <div class="outset">
-        <span class="demo">
-            <a href="{{.URL}}">{{.Title}}</a>
-        </span>
-        <p>Score: <b>{{.Score}}</b></p>
-        <div class="dropdown">
-            <img src="{{.Source}}" alt="{{.ALT}}" width="100" height="50">
-            <div class="dropdown-content">
-                <img src="{{.Source}}" alt="{{.ALT}}" width="300" height="200">
-                <div class="desc">{{.ALT}}</div>
-            </div>
+    <header class="header">
+        <div class="logo-container">
+            <img src="fetch-logo.png" alt="Fetch Logo" class="logo">
+            <h1>Fetch</h1>
         </div>
-    </div>
-    {{end}}
-
+    </header>
+    <main>
+        <h2>Image Search Results</h2>
+        {{range .}}
+        <div class="result-item">
+            <div class="result-title">{{.Title}}</div>
+            <div class="result-score">Score: {{.Score}}</div>
+            <div class="result-alt">{{.ALT}}</div>
+            <img src="{{.ImageURL}}" alt="{{.ALT}}">
+        </div>
+        {{end}}
+    </main>
 </body>
-
 </html>

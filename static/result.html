@@ -1,21 +1,27 @@
-<html>
-    <head>
-        <link rel="stylesheet" href="/project06.css">
-    </head>
-    <body>
-        <h1>Search Results</h1>
-        
-        {{range .}}
-        <div class="outset">
-            <p>
-                <p>{{.Word}}</p>
-                <span class="demo">
-                    <a href={{.URL}}> <b>{{.Title}}</b></a>
-                </span>
-                <p>Score: <b>{{.Score}}</b></p>
-            </p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="results.css">
+    <title>Search Results - Fetch</title>
+</head>
+<body>
+    <header class="header">
+        <div class="logo-container">
+            <img src="fetch-logo.png" alt="Fetch Logo" class="logo">
+            <h1>Fetch</h1>
         </div>
-        <p></p>
+    </header>
+    <main>
+        <h2>Search Results</h2>
+        {{range .}}
+        <div class="result-item">
+            <div class="result-word">{{.Word}}</div>
+            <div class="result-title">{{.Title}}</div>
+            <div class="result-score">Score: {{.Score}}</div>
+        </div>
         {{end}}
-    </body>
+    </main>
+</body>
 </html>
